@@ -11,7 +11,10 @@ const {
   updateMeal,
   deleteMeal,
 } = require('../controllers/meals.controllers');
-const { validateToken } = require('../middlewares/jsonwebtoken.middleware');
+const {
+  validateToken,
+  protectAdmin,
+} = require('../middlewares/jsonwebtoken.middleware');
 const { checkValidations } = require('../middlewares/validations.middlewares');
 
 //Crear Meal
@@ -30,9 +33,9 @@ router.get('/', getAllMeals);
 router.get('/:id', getMealById);
 
 //Actualizar Meal
-router.patch('/:id', validateToken, updateMeal);
+router.patch('/:id', validateToken, protectAdmin, updateMeal);
 
 //Eliminar Meal
-router.delete('/:id', validateToken, deleteMeal);
+router.delete('/:id', validateToken, protectAdmin, deleteMeal);
 
 module.exports = { mealsRouter: router };
